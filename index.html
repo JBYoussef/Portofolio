@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>José Bofengola — Portfólio</title>
+<meta name="description" content="José Bofengola — Cadete 42 Luanda. Sistemas, redes, DevOps e segurança. Common Core concluído a 100%.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230c0e12'/%3E%3Ctext x='50' y='66' font-size='42' font-family='monospace' font-weight='700' fill='%23d9a441' text-anchor='middle'%3EJB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0e12;
+    --bg-raised:#15181e;
+    --bg-raised-hover:#1a1e25;
+    --border:#22262e;
+    --border-strong:#333944;
+    --text:#e8e6e1;
+    --text-dim:#98948c;
+    --text-faint:#5a5852;
+    --ok:#7fb069;
+    --ok-bg:rgba(127,176,105,0.09);
+    --ok-border:rgba(127,176,105,0.35);
+    --bonus:#d9a441;
+    --bonus-bg:rgba(217,164,65,0.09);
+    --bonus-border:rgba(217,164,65,0.38);
+    --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+    --font-sans:'IBM Plex Sans',-apple-system,sans-serif;
+    --maxw:1080px;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body.lock{overflow:hidden;}
+  ::selection{background:var(--bonus);color:#14100a;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.5rem;}
+  :focus-visible{outline:2px solid var(--bonus);outline-offset:3px;border-radius:3px;}
+
+  h1,h2,h3,.mono{font-family:var(--font-mono);}
+
+  /* ---------- boot overlay ---------- */
+  #boot{
+    position:fixed;inset:0;background:var(--bg);z-index:999;
+    display:flex;align-items:center;justify-content:center;
+    padding:1.5rem;transition:opacity .5s ease;
+  }
+  #boot pre{
+    font-family:var(--font-mono);font-size:.78rem;color:var(--text-dim);
+    line-height:1.9;white-space:pre-wrap;max-width:560px;width:100%;
+  }
+  #boot .ln{opacity:0;transform:translateY(3px);transition:opacity .25s ease,transform .25s ease;display:block;}
+  #boot .ln.show{opacity:1;transform:translateY(0);}
+  #boot .tag-ok{color:var(--ok);}
+  #boot .tag-ready{color:var(--bonus);}
+  #boot .cursor{display:inline-block;width:7px;height:13px;background:var(--bonus);vertical-align:middle;animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    border-bottom:1px solid transparent;
+    transition:border-color .25s ease, background .25s ease;
+  }
+  header.scrolled{
+    background:rgba(12,14,18,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom-color:var(--border);
+  }
+  nav{display:flex;align-items:center;justify-content:space-between;padding:1.05rem 0;}
+  .brand{font-family:var(--font-mono);font-weight:700;font-size:.95rem;letter-spacing:.02em;display:flex;align-items:center;gap:.5rem;}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);}
+  .navlinks{display:flex;gap:1.75rem;font-family:var(--font-mono);font-size:.82rem;color:var(--text-dim);}
+  .navlinks a{transition:color .15s ease;white-space:nowrap;}
+  .navlinks a:hover{color:var(--bonus);}
+  .nav-gh{border:1px solid var(--border-strong);border-radius:6px;padding:.4rem .75rem;font-family:var(--font-mono);font-size:.8rem;transition:border-color .15s ease,color .15s ease;}
+  .nav-gh:hover{border-color:var(--bonus);color:var(--bonus);}
+  @media(max-width:720px){.navlinks{display:none;}}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+    padding:7rem 0 4rem;position:relative;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:42px 42px;
+    background-position:center top;
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 30%, black 10%, transparent 75%);
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 30%, black 10%, transparent 75%);
+  }
+  .hero-inner{position:relative;z-index:1;-webkit-mask-image:none;mask-image:none;}
+  .eyebrow{font-family:var(--font-mono);font-size:.82rem;color:var(--bonus);margin-bottom:1.1rem;letter-spacing:.02em;}
+  .eyebrow::before{content:'~/portfolio ';color:var(--text-faint);}
+  h1.name{
+    font-size:clamp(2.4rem,7vw,4.4rem);font-weight:700;line-height:1.04;
+    letter-spacing:-.01em;margin-bottom:1rem;
+  }
+  .role-line{font-family:var(--font-mono);color:var(--text-dim);font-size:clamp(.95rem,2vw,1.15rem);margin-bottom:1.6rem;}
+  .role-line .sep{color:var(--text-faint);margin:0 .4em;}
+  .pitch{max-width:640px;font-size:1.08rem;color:var(--text-dim);margin-bottom:2.2rem;}
+  .pitch strong{color:var(--text);font-weight:600;}
+  .cta-row{display:flex;gap:.9rem;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--font-mono);font-size:.88rem;padding:.75rem 1.3rem;border-radius:7px;
+    display:inline-flex;align-items:center;gap:.5rem;transition:all .18s ease;border:1px solid transparent;
+  }
+  .btn-primary{background:var(--bonus);color:#14100a;font-weight:600;}
+  .btn-primary:hover{background:#eab866;transform:translateY(-1px);}
+  .btn-ghost{border-color:var(--border-strong);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--bonus);color:var(--bonus);}
+
+  /* ---------- sections ---------- */
+  section{padding:5.5rem 0;border-top:1px solid var(--border);}
+  .sec-label{
+    font-family:var(--font-mono);font-size:.78rem;color:var(--text-faint);
+    text-transform:lowercase;letter-spacing:.03em;margin-bottom:.6rem;
+  }
+  .sec-title{font-size:clamp(1.5rem,3.5vw,2rem);font-weight:700;margin-bottom:2.5rem;letter-spacing:-.01em;}
+
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:3rem;}
+  .about-grid p{color:var(--text-dim);margin-bottom:1.1rem;max-width:56ch;}
+  .about-grid p strong{color:var(--text);font-weight:600;}
+  .stats{display:flex;flex-direction:column;gap:1.4rem;}
+  .stat-card{border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.4rem;background:var(--bg-raised);}
+  .stat-num{font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--bonus);line-height:1;}
+  .stat-lbl{font-size:.82rem;color:var(--text-dim);margin-top:.35rem;}
+  @media(max-width:800px){.about-grid{grid-template-columns:1fr;}}
+
+  /* skills */
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .skill-card{border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem 1.4rem;background:var(--bg-raised);}
+  .skill-card h3{font-size:.86rem;color:var(--bonus);margin-bottom:.9rem;font-weight:600;letter-spacing:.01em;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:.4rem;}
+  .tag{
+    font-family:var(--font-mono);font-size:.74rem;color:var(--text-dim);
+    border:1px solid var(--border-strong);border-radius:5px;padding:.28rem .55rem;
+    background:rgba(255,255,255,.02);
+  }
+
+  /* projects */
+  .filter-row{display:flex;gap:.55rem;flex-wrap:wrap;margin-bottom:2.2rem;}
+  .filter-btn{
+    font-family:var(--font-mono);font-size:.78rem;color:var(--text-dim);
+    border:1px solid var(--border-strong);border-radius:6px;padding:.5rem .9rem;
+    background:transparent;cursor:pointer;transition:all .15s ease;
+  }
+  .filter-btn:hover{border-color:var(--bonus);color:var(--text);}
+  .filter-btn.active{background:var(--bonus);border-color:var(--bonus);color:#14100a;font-weight:600;}
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:1.15rem;}
+  .project-card{
+    background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--radius);
+    padding:1.35rem;cursor:pointer;transition:border-color .18s ease,transform .18s ease,background .18s ease;
+    display:flex;flex-direction:column;gap:.7rem;
+  }
+  .project-card:hover{border-color:var(--border-strong);background:var(--bg-raised-hover);transform:translateY(-3px);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem;}
+  .card-title{font-size:1.02rem;font-weight:700;}
+  .status{
+    display:inline-flex;align-items:center;gap:.32em;font-family:var(--font-mono);
+    font-size:.66rem;letter-spacing:.02em;padding:.22em .5em;border-radius:4px;border:1px solid;white-space:nowrap;
+  }
+  .status-ok{color:var(--ok);border-color:var(--ok-border);background:var(--ok-bg);}
+  .status-bonus{color:var(--bonus);border-color:var(--bonus-border);background:var(--bonus-bg);}
+  .badges{display:flex;gap:.35rem;flex-wrap:wrap;}
+  .card-summary{color:var(--text-dim);font-size:.9rem;flex-grow:1;}
+  .card-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+  .card-tags .tag{font-size:.68rem;padding:.2rem .45rem;}
+  .card-more{font-family:var(--font-mono);font-size:.74rem;color:var(--text-faint);margin-top:.2rem;}
+  .project-card:hover .card-more{color:var(--bonus);}
+
+  /* modal */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(5,6,8,.78);backdrop-filter:blur(5px);
+    display:flex;align-items:center;justify-content:center;padding:1.5rem;
+    opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:200;
+  }
+  .modal-overlay.open{opacity:1;pointer-events:auto;}
+  .modal-panel{
+    background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:12px;
+    max-width:600px;width:100%;max-height:82vh;overflow-y:auto;padding:2.1rem;
+    transform:translateY(14px);transition:transform .22s ease;
+  }
+  .modal-overlay.open .modal-panel{transform:translateY(0);}
+  .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:1rem;}
+  .modal-head h3{font-size:1.35rem;}
+  .modal-close{
+    font-family:var(--font-mono);font-size:1.1rem;color:var(--text-dim);cursor:pointer;
+    border:1px solid var(--border-strong);border-radius:6px;width:34px;height:34px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s ease;
+  }
+  .modal-close:hover{border-color:var(--bonus);color:var(--bonus);}
+  .modal-panel p{color:var(--text-dim);margin-bottom:1rem;}
+
+  /* timeline */
+  .timeline{position:relative;padding-left:1.6rem;}
+  .timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--border-strong);}
+  .tl-item{position:relative;padding-bottom:2rem;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{content:'';position:absolute;left:-1.6rem;top:5px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--bonus);}
+  .tl-year{font-family:var(--font-mono);font-size:.78rem;color:var(--bonus);margin-bottom:.3rem;}
+  .tl-text{color:var(--text-dim);max-width:60ch;}
+  .tl-text strong{color:var(--text);font-weight:600;}
+
+  /* languages */
+  .lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.1rem;}
+  .lang-card{border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.35rem;background:var(--bg-raised);}
+  .lang-name{font-weight:600;margin-bottom:.6rem;}
+  .lang-bar{height:5px;border-radius:3px;background:var(--border);overflow:hidden;margin-bottom:.5rem;}
+  .lang-bar > div{height:100%;background:var(--bonus);border-radius:3px;}
+  .lang-level{font-family:var(--font-mono);font-size:.76rem;color:var(--text-dim);}
+
+  /* contact */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;}
+  .contact-card{border:1px solid var(--border);border-radius:var(--radius);padding:1.15rem 1.3rem;background:var(--bg-raised);transition:border-color .15s ease;}
+  a.contact-card:hover{border-color:var(--bonus);}
+  .contact-lbl{font-family:var(--font-mono);font-size:.72rem;color:var(--text-faint);margin-bottom:.4rem;text-transform:lowercase;}
+  .contact-val{font-weight:600;font-size:.98rem;word-break:break-word;}
+
+  footer{border-top:1px solid var(--border);padding:2.2rem 0;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-family:var(--font-mono);font-size:.76rem;color:var(--text-faint);}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <nav class="wrap">
+    <a href="#top" class="brand"><span class="dot"></span>jose_bofengola</a>
+    <div class="navlinks">
+      <a href="#sobre">sobre</a>
+      <a href="#competencias">competências</a>
+      <a href="#projetos">projetos</a>
+      <a href="#percurso">percurso</a>
+      <a href="#contacto">contacto</a>
+    </div>
+    <a class="nav-gh" href="https://github.com/JBYoussef" target="_blank" rel="noopener">github ↗</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero" id="hero-section">
+    <div class="wrap hero-inner">
+      <p class="eyebrow">whoami</p>
+      <h1 class="name">José Bofengola</h1>
+      <p class="role-line">sistemas<span class="sep">·</span>redes<span class="sep">·</span>devops<span class="sep">·</span>segurança</p>
+      <p class="pitch">Cadete <strong>42 Luanda</strong> com o Common Core concluído a 100%. Construo software a partir de primitivas — <strong>sockets</strong> em vez de frameworks, <strong>mutexes</strong> em vez de bibliotecas de concorrência, <strong>Dockerfiles</strong> em vez de imagens prontas.</p>
+      <div class="cta-row">
+        <a href="#projetos" class="btn btn-primary">ver projetos ↓</a>
+        <a href="https://github.com/JBYoussef" target="_blank" rel="noopener" class="btn btn-ghost">github</a>
+        <a href="#contacto" class="btn btn-ghost">contacto</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre">
+    <div class="wrap reveal">
+      <p class="sec-label">sobre(1)</p>
+      <h2 class="sec-title">Do zero até ao servidor</h2>
+      <div class="about-grid">
+        <div>
+          <p>Comecei pelo básico — recriar funções da libc, gerir memória à mão — e fui subindo a pilha: de <strong>estruturas de dados</strong> para <strong>sistemas de ficheiros</strong>, de <strong>processos</strong> para <strong>threads</strong>, de <strong>sockets</strong> para um <strong>servidor HTTP completo</strong>. A 42 não ensina frameworks; ensina a construir a coisa a seguir sem um.</p>
+          <p>Isso mudou a forma como penso sobre software: prefiro perceber o mecanismo por baixo a decorar uma API. É esse instinto que me leva agora para a <strong>Arquitetura de Sistemas de Informação em Rede</strong> (RNCP7), com um percurso definido — kernel, depois devops, depois segurança.</p>
+        </div>
+        <div class="stats">
+          <div class="stat-card"><div class="stat-num">25+</div><div class="stat-lbl">projetos &amp; exames avaliados</div></div>
+          <div class="stat-card"><div class="stat-num">100%</div><div class="stat-lbl">Common Core concluído</div></div>
+          <div class="stat-card"><div class="stat-num">6+</div><div class="stat-lbl">projetos com bónus</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="competencias">
+    <div class="wrap reveal">
+      <p class="sec-label">competências(1)</p>
+      <h2 class="sec-title">Competências técnicas</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3>sistemas &amp; baixo nível</h3>
+          <div class="tag-row">
+            <span class="tag">C</span><span class="tag">C++ (98)</span><span class="tag">Shell/Bash</span>
+            <span class="tag">Linux hardening</span><span class="tag">chamadas de sistema</span>
+            <span class="tag">pthreads / mutexes</span><span class="tag">sockets TCP/UDP</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>redes</h3>
+          <div class="tag-row">
+            <span class="tag">Endereçamento IP</span><span class="tag">sub-redes</span><span class="tag">routing</span>
+            <span class="tag">modelo OSI</span><span class="tag">HTTP (implementação própria)</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>devops &amp; infraestrutura</h3>
+          <div class="tag-row">
+            <span class="tag">Docker</span><span class="tag">Docker Compose</span><span class="tag">NGINX</span>
+            <span class="tag">TLS 1.2/1.3</span><span class="tag">Makefile</span><span class="tag">Git/GitHub</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>segurança</h3>
+          <div class="tag-row">
+            <span class="tag">bcrypt</span><span class="tag">JWT</span><span class="tag">OAuth 2.0</span>
+            <span class="tag">gestão de segredos</span><span class="tag">CORS</span><span class="tag">rate limiting</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>java &amp; backend</h3>
+          <div class="tag-row">
+            <span class="tag">Java SE ≤21</span><span class="tag">Collections</span><span class="tag">Streams</span>
+            <span class="tag">Records</span><span class="tag">Spring / Spring Boot</span><span class="tag">JDBC</span>
+            <span class="tag">REST APIs</span><span class="tag">JUnit/Mockito</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>linguagens</h3>
+          <div class="tag-row">
+            <span class="tag">C</span><span class="tag">C++ (98)</span><span class="tag">Java (≤21)</span><span class="tag">SQL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projetos">
+    <div class="wrap reveal">
+      <p class="sec-label">projetos(1)</p>
+      <h2 class="sec-title">Projetos</h2>
+      <div class="filter-row" id="filterRow">
+        <button class="filter-btn active" data-filter="all">todos</button>
+        <button class="filter-btn" data-filter="sistemas">sistemas &amp; c</button>
+        <button class="filter-btn" data-filter="cpp">c++ / poo</button>
+        <button class="filter-btn" data-filter="redes">redes &amp; devops</button>
+        <button class="filter-btn" data-filter="web">web &amp; full-stack</button>
+      </div>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </div>
+  </section>
+
+  <section id="percurso">
+    <div class="wrap reveal">
+      <p class="sec-label">percurso(1)</p>
+      <h2 class="sec-title">Como cheguei aqui</h2>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">2024 — arranque</div>
+          <div class="tl-text"><strong>Libft, Born2beroot, push_swap, minitalk.</strong> As primeiras estruturas de dados e o primeiro servidor Linux configurado à mão.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2025 — sistemas &amp; c++</div>
+          <div class="tl-text"><strong>Minishell, Philosophers, miniRT, 10 módulos de C++.</strong> Processos, threads, ray tracing e programação orientada a objetos.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2026 — redes &amp; infraestrutura</div>
+          <div class="tl-text"><strong>NetPractice, Webserv, Inception.</strong> Um servidor HTTP construído do zero e uma stack Docker completa em produção.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2026 — common core: 100%</div>
+          <div class="tl-text">Fechado com o <strong>ft_prodd</strong>, uma aplicação web full-stack construída em equipa de quatro pessoas.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">próximo passo</div>
+          <div class="tl-text"><strong>RNCP7 — Arquitetura de Sistemas de Informação em Rede.</strong> Percurso definido: kernel → devops → segurança.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="idiomas">
+    <div class="wrap reveal">
+      <p class="sec-label">idiomas(1)</p>
+      <h2 class="sec-title">Idiomas</h2>
+      <div class="lang-grid">
+        <div class="lang-card">
+          <div class="lang-name">Português</div>
+          <div class="lang-bar"><div style="width:100%"></div></div>
+          <div class="lang-level">língua materna</div>
+        </div>
+        <div class="lang-card">
+          <div class="lang-name">Inglês</div>
+          <div class="lang-bar"><div style="width:55%"></div></div>
+          <div class="lang-level">intermédio · B1</div>
+        </div>
+        <div class="lang-card">
+          <div class="lang-name">Francês</div>
+          <div class="lang-bar"><div style="width:25%"></div></div>
+          <div class="lang-level">básico · A1–A2</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="wrap reveal">
+      <p class="sec-label">contacto(1)</p>
+      <h2 class="sec-title">Vamos falar</h2>
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:email@exemplo.com">
+          <div class="contact-lbl">email</div>
+          <div class="contact-val">[email@exemplo.com]</div>
+        </a>
+        <a class="contact-card" href="tel:+244947420440">
+          <div class="contact-lbl">telefone</div>
+          <div class="contact-val">+244 947 420 440</div>
+        </a>
+        <a class="contact-card" href="https://github.com/JBYoussef" target="_blank" rel="noopener">
+          <div class="contact-lbl">github</div>
+          <div class="contact-val">github.com/JBYoussef</div>
+        </a>
+        <div class="contact-card">
+          <div class="contact-lbl">localização</div>
+          <div class="contact-val">[Cidade, País]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 José Bofengola</span>
+    <span>construído sem frameworks — html, css e js puros</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-panel" id="modalPanel"></div>
+</div>
+
+<script>
+// ---------------- project data ----------------
+const projects = [
+  {id:'libft', title:'Libft', category:'sistemas', bonus:true,
+   tags:['C','Bibliotecas','Alocação de Memória'],
+   summary:'Recriação de funções da biblioteca padrão de C, mais utilitários próprios usados em todo o percurso.',
+   detail:'O primeiro projeto da 42 — implementação do zero de dezenas de funções da libc (memcpy, strdup, split, etc.) e de estruturas de dados próprias, sem qualquer biblioteca externa. Reaproveitada em praticamente todos os projetos seguintes em C.'},
+  {id:'ftprintf', title:'ft_printf', category:'sistemas', bonus:false,
+   tags:['C','Variadic Functions','Parsing'],
+   summary:'Reimplementação da função printf, com suporte completo a especificadores de formato.',
+   detail:'Recriação da printf da libc, incluindo o parsing de format strings e o uso de va_list/va_arg para funções variádicas — reaproveitada em todos os projetos posteriores para output formatado.'},
+  {id:'gnl', title:'get_next_line', category:'sistemas', bonus:true,
+   tags:['C','File I/O','Buffers'],
+   summary:'Leitura linha-a-linha de um descritor de ficheiro, com suporte a múltiplos fd em simultâneo (bónus).',
+   detail:'Leitura linha-a-linha de qualquer stream (ficheiro, stdin, socket) usando um buffer estático e alocação dinâmica cuidadosa. A versão com bónus suporta vários file descriptors abertos ao mesmo tempo sem misturar o seu estado interno.'},
+  {id:'minitalk', title:'minitalk', category:'sistemas', bonus:true,
+   tags:['C','UNIX Signals','IPC'],
+   summary:'Cliente-servidor que troca dados usando apenas sinais UNIX, bit a bit.',
+   detail:'Comunicação entre dois processos usando exclusivamente sinais POSIX (SIGUSR1/SIGUSR2) como canal de dados — cada bit de cada carácter é enviado como um sinal individual. A versão com bónus acrescenta confirmação de receção e suporte a Unicode.'},
+  {id:'fractol', title:'fract-ol', category:'sistemas', bonus:true,
+   tags:['C','MinilibX','Matemática'],
+   summary:'Gerador interativo de fractais 2D (Mandelbrot, Julia) em tempo real via MinilibX.',
+   detail:'Algoritmos de fractais complexos com zoom e navegação interativos em tempo real, desenhando diretamente nos pixels da janela via MinilibX — envolveu otimização de performance para manter a renderização fluida.'},
+  {id:'pushswap', title:'push_swap', category:'sistemas', bonus:false,
+   tags:['C','Algoritmos','Otimização'],
+   summary:'Ordenar uma pilha de números com duas stacks e um conjunto restrito de instruções.',
+   detail:'Desafio de algoritmos puro — ordenar uma sequência de inteiros usando apenas duas stacks (push, swap, rotate) com o menor número possível de movimentos, comparando estratégias para otimizar a complexidade.'},
+  {id:'minishell', title:'Minishell', category:'sistemas', bonus:false,
+   tags:['C','Processos','Pipes','Sinais'],
+   summary:'Réplica funcional de uma shell UNIX: pipes, redirecionamentos, variáveis de ambiente e sinais.',
+   detail:'Interpretador de linha de comandos com parsing de aspas, pipes (|), redirecionamentos (<, >, <<, >>), expansão de variáveis ($VAR, $?) e gestão de sinais (Ctrl-C, Ctrl-D, Ctrl-\\) idêntica à da Bash, usando fork, execve, dup2 e pipes.'},
+  {id:'philosophers', title:'Philosophers', category:'sistemas', bonus:false,
+   tags:['C','Threads','Mutexes','Concorrência'],
+   summary:'Simulação dos "filósofos jantantes" com threads e mutexes, sem deadlocks nem race conditions.',
+   detail:'Cada filósofo é uma thread independente que compete por dois garfos (mutexes) partilhados com os vizinhos — o desafio está em evitar deadlock e garantir que nenhum filósofo morre à fome, respeitando limites de tempo estritos.'},
+  {id:'minirt', title:'miniRT', category:'sistemas', bonus:true,
+   tags:['C','Ray Tracing','MinilibX'],
+   summary:'Ray tracer do zero: interseção de raios com esferas, planos e cilindros, luz e sombras.',
+   detail:'Motor de ray tracing construído a partir de fórmulas matemáticas puras (interseção raio-objeto, normais de superfície, iluminação ambiente e difusa) para gerar imagens de cenas 3D descritas em ficheiros de configuração. A versão com bónus acrescenta reflexos especulares e texturas em xadrez.'},
+  {id:'cpp', title:'C++ Modules 00–09', category:'cpp', bonus:false,
+   tags:['C++98','POO','Templates','STL'],
+   summary:'Progressão completa de Programação Orientada a Objetos em C++98, dos fundamentos à STL.',
+   detail:'Dez módulos progressivos: sintaxe e diferenças face a C (00), POO (01), gestão de memória e switch (02), sobrecarga e Orthodox Canonical Form (03), herança (04), exceções (05), casting (06), templates (07), containers/iteradores/algoritmos (08) e containers da STL (09).'},
+  {id:'b2br', title:'Born2beroot', category:'redes', bonus:false,
+   tags:['Linux','Sysadmin','Segurança'],
+   summary:'Instalação e hardening de um servidor Debian numa VM: passwords, firewall, sudo restrito.',
+   detail:'Configuração manual de um servidor Linux do zero: particionamento com LVM encriptado, políticas rígidas de password e conta, firewall UFW, SSH numa porta não-standard, sudo com regras restritas e um script de monitorização via cron que reporta o estado do sistema a cada 10 minutos.'},
+  {id:'netpractice', title:'NetPractice', category:'redes', bonus:false,
+   tags:['Redes','TCP/IP','Routing'],
+   summary:'10 topologias de rede progressivas: endereçamento IP, sub-redes, gateways, routing, OSI.',
+   detail:'Exercícios práticos de troubleshooting de rede — corrigir diagramas de rede não-funcionais ajustando endereços IP, máscaras de sub-rede, gateways e tabelas de routing, consolidando os fundamentos de TCP/IP e do modelo OSI.'},
+  {id:'webserv', title:'Webserv', category:'redes', bonus:true,
+   tags:['C++98','HTTP','poll()'],
+   summary:'Servidor HTTP construído do zero em C++98, com I/O não-bloqueante e um único poll().',
+   detail:'Servidor web compatível com browsers reais — parsing de HTTP/1.1, gestão de múltiplos clientes em simultâneo com um único poll() não-bloqueante, métodos GET/POST/DELETE, upload de ficheiros, execução de CGI (PHP/Python) e ficheiro de configuração inspirado no NGINX.'},
+  {id:'inception', title:'Inception', category:'redes', bonus:true,
+   tags:['Docker','NGINX','TLS'],
+   summary:'Infraestrutura containerizada: NGINX (TLS), WordPress + PHP-FPM e MariaDB, em containers isolados.',
+   detail:'Dockerfiles próprios (sem imagens pré-feitas) para três serviços isolados — NGINX como único ponto de entrada via HTTPS, WordPress com PHP-FPM, e MariaDB — com volumes Docker nomeados persistentes, segredos via variáveis de ambiente e reinício automático em caso de falha.'},
+  {id:'ftprodd', title:'ft_prodd / ft_transcendence', category:'web', bonus:true,
+   tags:['Node.js','PostgreSQL','JWT','OAuth 2.0'],
+   summary:'App web full-stack de gestão colaborativa de projetos, em equipa de 4. Responsável pelo backend.',
+   detail:'Plataforma tipo Kanban com workspaces, quadros, tarefas e notificações em tempo real. Como programador de backend: autenticação JWT e OAuth 2.0 via API da 42, segurança da API (Helmet, CORS, rate limiting), chaves de API com hash bcrypt, WebSockets (Socket.IO) para presença online e documentação Swagger. Stack: Node.js/Express, PostgreSQL + Prisma, Docker.'},
+];
+
+const grid = document.getElementById('projectsGrid');
+function renderProjects(){
+  grid.innerHTML = projects.map(p => `
+    <div class="project-card" data-category="${p.category}" data-id="${p.id}" tabindex="0" role="button" aria-label="Ver detalhes de ${p.title}">
+      <div class="card-top">
+        <div class="card-title">${p.title}</div>
+      </div>
+      <div class="badges">
+        <span class="status status-ok">● pass</span>
+        ${p.bonus ? '<span class="status status-bonus">+bonus</span>' : ''}
+      </div>
+      <div class="card-summary">${p.summary}</div>
+      <div class="card-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="card-more">ver detalhes →</div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', () => openModal(card.dataset.id));
+    card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openModal(card.dataset.id);} });
+  });
+}
+renderProjects();
+
+// ---------------- filters ----------------
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.style.display = (f === 'all' || card.dataset.category === f) ? '' : 'none';
+    });
+  });
+});
+
+// ---------------- modal ----------------
+const overlay = document.getElementById('modalOverlay');
+const panel = document.getElementById('modalPanel');
+function openModal(id){
+  const p = projects.find(x => x.id === id);
+  if(!p) return;
+  panel.innerHTML = `
+    <div class="modal-head">
+      <div>
+        <h3>${p.title}</h3>
+        <div class="badges" style="margin-top:.5rem;">
+          <span class="status status-ok">● pass</span>
+          ${p.bonus ? '<span class="status status-bonus">+bonus</span>' : ''}
+        </div>
+      </div>
+      <div class="modal-close" id="modalCloseBtn">×</div>
+    </div>
+    <p>${p.detail}</p>
+    <div class="card-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+  `;
+  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+  overlay.classList.add('open');
+  document.body.classList.add('lock');
+}
+function closeModal(){
+  overlay.classList.remove('open');
+  document.body.classList.remove('lock');
+}
+overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+// ---------------- nav scroll state ----------------
+const headerEl = document.getElementById('siteHeader');
+window.addEventListener('scroll', () => {
+  headerEl.classList.toggle('scrolled', window.scrollY > 30);
+});
+
+// ---------------- reveal on scroll ----------------
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ---------------- boot sequence ----------------
+(function boot(){
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const overlayEl = document.createElement('div');
+  overlayEl.id = 'boot';
+  document.body.appendChild(overlayEl);
+  document.body.classList.add('lock');
+
+  if(reduced){
+    overlayEl.remove();
+    document.body.classList.remove('lock');
+    return;
+  }
+
+  const lines = [
+    {t:'0.000', m:'boot jose-bofengola/portfolio'},
+    {t:'0.142', m:'common-core ................... 100%', s:'ok'},
+    {t:'0.294', m:'libft.service .................. ', s:'ok'},
+    {t:'0.411', m:'minishell.service .............. ', s:'ok'},
+    {t:'0.529', m:'philosophers.service ........... ', s:'ok'},
+    {t:'0.673', m:'webserv.service (poll=1) ....... ', s:'ok'},
+    {t:'0.810', m:'inception.service (docker=3) ... ', s:'ok'},
+    {t:'0.956', m:'loading: kernel → devops → segurança'},
+    {t:'1.100', m:'sessão pronta.', s:'ready'},
+  ];
+
+  const pre = document.createElement('pre');
+  overlayEl.appendChild(pre);
+
+  lines.forEach((l,i) => {
+    const span = document.createElement('span');
+    span.className = 'ln';
+    const tagClass = l.s === 'ok' ? 'tag-ok' : (l.s === 'ready' ? 'tag-ready' : '');
+    const tag = l.s === 'ok' ? '<span class="tag-ok">[ OK ]</span>' : (l.s === 'ready' ? '<span class="tag-ready">[ READY ]</span>' : '');
+    span.innerHTML = `[${l.t}] ${l.m} ${tag}`;
+    pre.appendChild(span);
+    setTimeout(() => span.classList.add('show'), 90 + i * 150);
+  });
+
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  pre.appendChild(cursor);
+
+  setTimeout(() => {
+    overlayEl.style.opacity = '0';
+    document.body.classList.remove('lock');
+    setTimeout(() => overlayEl.remove(), 550);
+  }, 90 + lines.length * 150 + 500);
+})();
+</script>
+</body>
+</html>
