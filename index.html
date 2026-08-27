@@ -91,7 +91,10 @@
   /* ---------- hero ---------- */
   .hero{
     min-height:100vh;display:flex;flex-direction:column;justify-content:center;
-    padding:7rem 0 4rem;position:relative;
+    padding:7rem 0 4rem;position:relative;overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;pointer-events:none;
     background-image:
       linear-gradient(var(--border) 1px, transparent 1px),
       linear-gradient(90deg, var(--border) 1px, transparent 1px);
@@ -100,7 +103,7 @@
     -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 30%, black 10%, transparent 75%);
     mask-image:radial-gradient(ellipse 70% 60% at 50% 30%, black 10%, transparent 75%);
   }
-  .hero-inner{position:relative;z-index:1;-webkit-mask-image:none;mask-image:none;}
+  .hero-inner{position:relative;z-index:1;}
   .eyebrow{font-family:var(--font-mono);font-size:.82rem;color:var(--bonus);margin-bottom:1.1rem;letter-spacing:.02em;}
   .eyebrow::before{content:'~/portfolio ';color:var(--text-faint);}
   h1.name{
@@ -259,6 +262,7 @@
 
 <main id="top">
   <section class="hero" id="hero-section">
+    <div class="hero-bg" aria-hidden="true"></div>
     <div class="wrap hero-inner">
       <p class="eyebrow">whoami</p>
       <h1 class="name">José Bofengola</h1>
