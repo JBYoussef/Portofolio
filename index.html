@@ -211,6 +211,26 @@
   .modal-close:hover{border-color:var(--bonus);color:var(--bonus);}
   .modal-panel p{color:var(--text-dim);margin-bottom:1rem;}
 
+  /* learned / no-github boxes */
+  .learned-box{
+    border:1px solid var(--ok-border);background:var(--ok-bg);border-radius:8px;
+    padding:1rem 1.15rem;margin-bottom:1rem;
+  }
+  .learned-label{
+    font-family:var(--font-mono);font-size:.72rem;color:var(--ok);letter-spacing:.02em;
+    margin-bottom:.5rem;text-transform:lowercase;
+  }
+  .learned-box p{color:var(--text-dim);margin-bottom:0;font-size:.92rem;}
+  .no-github-box{
+    border:1px solid var(--border-strong);background:rgba(255,255,255,.02);border-radius:8px;
+    padding:1rem 1.15rem;
+  }
+  .no-github-label{
+    font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);letter-spacing:.02em;
+    margin-bottom:.5rem;text-transform:lowercase;
+  }
+  .no-github-box p{color:var(--text-dim);margin-bottom:0;font-size:.88rem;}
+
   /* timeline */
   .timeline{position:relative;padding-left:1.6rem;}
   .timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--border-strong);}
@@ -523,15 +543,19 @@ const projects = [
    summary:'Progressão completa de Programação Orientada a Objetos em C++98, dos fundamentos à STL.',
    detail:'Dez módulos progressivos: sintaxe e diferenças face a C (00), POO (01), gestão de memória e switch (02), sobrecarga e Orthodox Canonical Form (03), herança (04), exceções (05), casting (06), templates (07), containers/iteradores/algoritmos (08) e containers da STL (09).'},
   {id:'b2br', title:'Born2beroot', category:'redes', status:'pass', bonus:false,
-   github:'https://github.com/JBYoussef/Born2beroot',
+   github:null,
+   noGithubReason:'Este projeto não vive em código — vive numa máquina virtual. A entrega consiste na própria VM (Debian, hardened à mão) mais um ficheiro de assinatura que prova que essa VM específica foi configurada por mim; não existe um repositório de "código-fonte" que capture isso, e a submissão exclui deliberadamente a VM do Git. O que fica documentado aqui é a configuração e o raciocínio por trás dela.',
    tags:['Linux','Sysadmin','Segurança'],
    summary:'Instalação e hardening de um servidor Debian numa VM: passwords, firewall, sudo restrito.',
-   detail:'Configuração manual de um servidor Linux do zero: particionamento com LVM encriptado, políticas rígidas de password e conta, firewall UFW, SSH numa porta não-standard, sudo com regras restritas e um script de monitorização via cron que reporta o estado do sistema a cada 10 minutos.'},
+   detail:'Configuração manual de um servidor Linux do zero: particionamento com LVM encriptado, políticas rígidas de password e conta, firewall UFW, SSH numa porta não-standard, sudo com regras restritas e um script de monitorização via cron que reporta o estado do sistema a cada 10 minutos.',
+   learned:'Este foi o primeiro contacto sério com administração de sistemas fora de um ambiente já preparado. Aprendi a particionar um disco com LVM encriptado do zero, a raciocinar sobre políticas de password e de sudo em vez de as copiar de um tutorial, a configurar um firewall restritivo (UFW) que só deixa passar o essencial, e a escrever um script de monitorização em bash que corre via cron e reporta o estado real do servidor — CPU, RAM, disco, ligações ativas — sem depender de ferramentas gráficas. Também obrigou a entender, e não apenas usar, a diferença entre apt e aptitude, e o papel do AppArmor num sistema Debian.'},
   {id:'netpractice', title:'NetPractice', category:'redes', status:'pass', bonus:false,
-   github:'https://github.com/JBYoussef/NetPractice',
+   github:null,
+   noGithubReason:'Não há código para partilhar: os 10 níveis resolvem-se numa interface de treino local que corre num browser, ajustando campos de configuração (IPs, máscaras, gateways) até a rede simulada funcionar. Não se escreve nenhuma linha própria — o resultado de cada nível é um ficheiro de configuração exportado da própria ferramenta, não um projeto de software.',
    tags:['Redes','TCP/IP','Routing'],
    summary:'10 topologias de rede progressivas: endereçamento IP, sub-redes, gateways, routing, OSI.',
-   detail:'Exercícios práticos de troubleshooting de rede — corrigir diagramas de rede não-funcionais ajustando endereços IP, máscaras de sub-rede, gateways e tabelas de routing, consolidando os fundamentos de TCP/IP e do modelo OSI.'},
+   detail:'Exercícios práticos de troubleshooting de rede — corrigir diagramas de rede não-funcionais ajustando endereços IP, máscaras de sub-rede, gateways e tabelas de routing, consolidando os fundamentos de TCP/IP e do modelo OSI.',
+   learned:'Este projeto forçou a passar de "saber a teoria de TCP/IP" para conseguir diagnosticar, sob pressão e sem ferramentas externas, porque é que uma topologia de rede concreta não funciona. Em cada um dos 10 níveis, a única informação disponível são os logs do próprio simulador — "destino não corresponde a nenhuma rota", "gateway inválido" — e a partir daí é preciso raciocinar sobre sub-redes, máscaras e tabelas de routing até a comunicação entre hosts funcionar. Fica a capacidade de ler uma topologia de rede e identificar rapidamente onde está a falha de configuração, uma competência que se usa tal e qual em suporte de redes ou operações.'},
   {id:'webserv', title:'Webserv', category:'redes', status:'pass', bonus:true,
    github:'https://github.com/3dsonnn/webserv',
    tags:['C++98','HTTP','poll()'],
@@ -603,6 +627,17 @@ const panel = document.getElementById('modalPanel');
 function openModal(id){
   const p = projects.find(x => x.id === id);
   if(!p) return;
+  const learnedBlock = p.learned ? `
+    <div class="learned-box">
+      <div class="learned-label">o que fica deste projeto</div>
+      <p>${p.learned}</p>
+    </div>` : '';
+  const footer = p.github
+    ? `<a href="${p.github}" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:.82rem;padding:.55rem 1rem;">github ↗</a>`
+    : `<div class="no-github-box">
+         <div class="no-github-label">⚠ sem link para github</div>
+         <p>${p.noGithubReason}</p>
+       </div>`;
   panel.innerHTML = `
     <div class="modal-head">
       <div>
@@ -615,7 +650,8 @@ function openModal(id){
     </div>
     <p>${p.detail}</p>
     <div class="card-tags" style="margin-bottom:1rem;">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-    <a href="${p.github}" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:.82rem;padding:.55rem 1rem;">github ↗</a>
+    ${learnedBlock}
+    ${footer}
   `;
   document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
   overlay.classList.add('open');
