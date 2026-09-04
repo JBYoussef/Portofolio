@@ -157,10 +157,18 @@
   }
 
   /* projects */
-  .filter-row{display:flex;gap:.55rem;flex-wrap:wrap;margin-bottom:2.2rem;}
+  .group-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem;}
+  .group-btn{
+    font-family:var(--font-mono);font-size:.86rem;font-weight:600;color:var(--text-dim);
+    border:1px solid var(--border-strong);border-radius:7px;padding:.65rem 1.2rem;
+    background:var(--bg-raised);cursor:pointer;transition:all .15s ease;letter-spacing:.01em;
+  }
+  .group-btn:hover{border-color:var(--bonus);color:var(--text);}
+  .group-btn.active{background:var(--bonus);border-color:var(--bonus);color:#14100a;}
+  .subfilter-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.2rem;padding-left:.15rem;}
   .filter-btn{
-    font-family:var(--font-mono);font-size:.78rem;color:var(--text-dim);
-    border:1px solid var(--border-strong);border-radius:6px;padding:.5rem .9rem;
+    font-family:var(--font-mono);font-size:.74rem;color:var(--text-dim);
+    border:1px solid var(--border);border-radius:6px;padding:.4rem .8rem;
     background:transparent;cursor:pointer;transition:all .15s ease;
   }
   .filter-btn:hover{border-color:var(--bonus);color:var(--text);}
@@ -382,15 +390,8 @@
     <div class="wrap reveal">
       <p class="sec-label">projetos(1)</p>
       <h2 class="sec-title">Projetos</h2>
-      <div class="filter-row" id="filterRow">
-        <button class="filter-btn active" data-filter="all">todos</button>
-        <button class="filter-btn" data-filter="sistemas">sistemas &amp; c</button>
-        <button class="filter-btn" data-filter="cpp">c++ / poo</button>
-        <button class="filter-btn" data-filter="redes">redes &amp; devops</button>
-        <button class="filter-btn" data-filter="web">web &amp; full-stack</button>
-        <button class="filter-btn" data-filter="data">sql &amp; data</button>
-        <button class="filter-btn" data-filter="java">java</button>
-      </div>
+      <div class="group-row" id="groupRow" role="group" aria-label="Grupo de projetos"></div>
+      <div class="subfilter-row" id="subfilterRow" role="group" aria-label="Categoria de projetos"></div>
       <div class="projects-grid" id="projectsGrid"></div>
     </div>
   </section>
@@ -418,11 +419,11 @@
         </div>
         <div class="tl-item">
           <div class="tl-year">em curso</div>
-          <div class="tl-text"><strong>Ledger</strong> (Piscine SQL / data engineering) e <strong>Piscine Java</strong> — o mesmo domínio de transferências monetárias, primeiro em SQL e depois em Java + Spring.</div>
+          <div class="tl-text"><strong>malloc</strong> (42 Advanced, Unix/Kernel — reimplementação de malloc/free/realloc sobre mmap), <strong>Ledger</strong> (Piscine SQL / data engineering) e <strong>Piscine Java</strong> — o mesmo domínio de transferências monetárias, primeiro em SQL e depois em Java + Spring.</div>
         </div>
         <div class="tl-item">
-          <div class="tl-year">próximo passo</div>
-          <div class="tl-text"><strong>RNCP7 — Arquitetura de Sistemas de Informação em Rede.</strong> Percurso definido: kernel → devops → segurança.</div>
+          <div class="tl-year">a seguir</div>
+          <div class="tl-text"><strong>RNCP7 — Arquitetura de Sistemas de Informação em Rede.</strong> Percurso definido: kernel → devops → segurança. <strong>malloc</strong> é já o primeiro projeto desse percurso (Fase 0 — Kernel).</div>
         </div>
       </div>
     </div>
@@ -492,91 +493,96 @@
 <script>
 // ---------------- project data ----------------
 const projects = [
-  {id:'libft', title:'Libft', category:'sistemas', status:'pass', bonus:true,
+  {id:'libft', title:'Libft', group:'common-core', categories:['sistemas'], category:'sistemas', status:'pass', bonus:true,
    github:'https://github.com/JBYoussef/libft',
    tags:['C','Bibliotecas','Alocação de Memória'],
    summary:'Recriação de funções da biblioteca padrão de C, mais utilitários próprios usados em todo o percurso.',
    detail:'O primeiro projeto da 42 — implementação do zero de dezenas de funções da libc (memcpy, strdup, split, etc.) e de estruturas de dados próprias, sem qualquer biblioteca externa. Reaproveitada em praticamente todos os projetos seguintes em C.'},
-  {id:'ftprintf', title:'ft_printf', category:'sistemas', status:'pass', bonus:false,
+  {id:'ftprintf', title:'ft_printf', group:'common-core', categories:['sistemas'], category:'sistemas', status:'pass', bonus:false,
    github:'https://github.com/JBYoussef/ft_printf',
    tags:['C','Variadic Functions','Parsing'],
    summary:'Reimplementação da função printf, com suporte completo a especificadores de formato.',
    detail:'Recriação da printf da libc, incluindo o parsing de format strings e o uso de va_list/va_arg para funções variádicas — reaproveitada em todos os projetos posteriores para output formatado.'},
-  {id:'gnl', title:'get_next_line', category:'sistemas', status:'pass', bonus:true,
+  {id:'gnl', title:'get_next_line', group:'common-core', categories:['sistemas'], category:'sistemas', status:'pass', bonus:true,
    github:'https://github.com/JBYoussef/get_next_line',
    tags:['C','File I/O','Buffers'],
    summary:'Leitura linha-a-linha de um descritor de ficheiro, com suporte a múltiplos fd em simultâneo (bónus).',
    detail:'Leitura linha-a-linha de qualquer stream (ficheiro, stdin, socket) usando um buffer estático e alocação dinâmica cuidadosa. A versão com bónus suporta vários file descriptors abertos ao mesmo tempo sem misturar o seu estado interno.'},
-  {id:'minitalk', title:'minitalk', category:'sistemas', status:'pass', bonus:true,
+  {id:'minitalk', title:'minitalk', group:'common-core', categories:['sistemas'], category:'sistemas', status:'pass', bonus:true,
    github:'https://github.com/JBYoussef/minitalk',
    tags:['C','UNIX Signals','IPC'],
    summary:'Cliente-servidor que troca dados usando apenas sinais UNIX, bit a bit.',
    detail:'Comunicação entre dois processos usando exclusivamente sinais POSIX (SIGUSR1/SIGUSR2) como canal de dados — cada bit de cada carácter é enviado como um sinal individual. A versão com bónus acrescenta confirmação de receção e suporte a Unicode.'},
-  {id:'fractol', title:'fract-ol', category:'sistemas', status:'pass', bonus:true,
+  {id:'fractol', title:'fract-ol', group:'common-core', categories:['sistemas'], category:'sistemas', status:'pass', bonus:true,
    github:'https://github.com/JBYoussef/fract-ol',
    tags:['C','MinilibX','Matemática'],
    summary:'Gerador interativo de fractais 2D (Mandelbrot, Julia) em tempo real via MinilibX.',
    detail:'Algoritmos de fractais complexos com zoom e navegação interativos em tempo real, desenhando diretamente nos pixels da janela via MinilibX — envolveu otimização de performance para manter a renderização fluida.'},
-  {id:'pushswap', title:'push_swap', category:'sistemas', status:'pass', bonus:false,
+  {id:'pushswap', title:'push_swap', group:'common-core', categories:['sistemas'], category:'sistemas', status:'pass', bonus:false,
    github:'https://github.com/JBYoussef/push_swap',
    tags:['C','Algoritmos','Otimização'],
    summary:'Ordenar uma pilha de números com duas stacks e um conjunto restrito de instruções.',
    detail:'Desafio de algoritmos puro — ordenar uma sequência de inteiros usando apenas duas stacks (push, swap, rotate) com o menor número possível de movimentos, comparando estratégias para otimizar a complexidade.'},
-  {id:'minishell', title:'Minishell', category:'sistemas', status:'pass', bonus:false,
+  {id:'minishell', title:'Minishell', group:'common-core', categories:['sistemas'], category:'sistemas', status:'pass', bonus:false,
    github:'https://github.com/JBYoussef/minishell',
    tags:['C','Processos','Pipes','Sinais'],
    summary:'Réplica funcional de uma shell UNIX: pipes, redirecionamentos, variáveis de ambiente e sinais.',
    detail:'Interpretador de linha de comandos com parsing de aspas, pipes (|), redirecionamentos (<, >, <<, >>), expansão de variáveis ($VAR, $?) e gestão de sinais (Ctrl-C, Ctrl-D, Ctrl-\\) idêntica à da Bash, usando fork, execve, dup2 e pipes.'},
-  {id:'philosophers', title:'Philosophers', category:'sistemas', status:'pass', bonus:false,
+  {id:'philosophers', title:'Philosophers', group:'common-core', categories:['sistemas'], category:'sistemas', status:'pass', bonus:false,
    github:'https://github.com/JBYoussef/philosophers',
    tags:['C','Threads','Mutexes','Concorrência'],
    summary:'Simulação dos "filósofos jantantes" com threads e mutexes, sem deadlocks nem race conditions.',
    detail:'Cada filósofo é uma thread independente que compete por dois garfos (mutexes) partilhados com os vizinhos — o desafio está em evitar deadlock e garantir que nenhum filósofo morre à fome, respeitando limites de tempo estritos.'},
-  {id:'minirt', title:'miniRT', category:'sistemas', status:'pass', bonus:true,
+  {id:'minirt', title:'miniRT', group:'common-core', categories:['sistemas'], category:'sistemas', status:'pass', bonus:true,
    github:'https://github.com/JBYoussef/miniRT',
    tags:['C','Ray Tracing','MinilibX'],
    summary:'Ray tracer do zero: interseção de raios com esferas, planos e cilindros, luz e sombras.',
    detail:'Motor de ray tracing construído a partir de fórmulas matemáticas puras (interseção raio-objeto, normais de superfície, iluminação ambiente e difusa) para gerar imagens de cenas 3D descritas em ficheiros de configuração. A versão com bónus acrescenta reflexos especulares e texturas em xadrez.'},
-  {id:'cpp', title:'C++ Modules 00–09', category:'cpp', status:'pass', bonus:false,
+  {id:'cpp', title:'C++ Modules 00–09', group:'common-core', categories:['cpp'], category:'cpp', status:'pass', bonus:false,
    github:'https://github.com/JBYoussef/cpp-modules',
    tags:['C++98','POO','Templates','STL'],
    summary:'Progressão completa de Programação Orientada a Objetos em C++98, dos fundamentos à STL.',
    detail:'Dez módulos progressivos: sintaxe e diferenças face a C (00), POO (01), gestão de memória e switch (02), sobrecarga e Orthodox Canonical Form (03), herança (04), exceções (05), casting (06), templates (07), containers/iteradores/algoritmos (08) e containers da STL (09).'},
-  {id:'b2br', title:'Born2beroot', category:'redes', status:'pass', bonus:false,
+  {id:'malloc', title:'malloc', group:'advanced', categories:['memory','unix'], category:'memory', status:'in-progress', bonus:false,
+   github:'https://github.com/JBYoussef/malloc',
+   tags:['C','mmap','Gestão de Memória','Thread-Safety'],
+   summary:'Reimplementação de malloc, free e realloc do zero, com gestão própria de zonas de memória via mmap.',
+   detail:'Alocador de memória construído sobre chamadas de sistema mmap/munmap, com zonas TINY, SMALL e LARGE geridas manualmente, alinhamento de memória e coalescing de blocos livres. O bónus acrescenta thread-safety com locking para uso seguro em contexto concorrente. Primeiro projeto do percurso RNCP7 (Fase 0 — Kernel): o vocabulário de gestão de memória construído aqui reaparece em quase todos os projetos de Security mais adiante no roadmap.'},
+  {id:'b2br', title:'Born2beroot', group:'common-core', categories:['redes'], category:'redes', status:'pass', bonus:false,
    github:null,
    noGithubReason:'Este projeto não vive em código — vive numa máquina virtual. A entrega consiste na própria VM (Debian, hardened à mão) mais um ficheiro de assinatura que prova que essa VM específica foi configurada por mim; não existe um repositório de "código-fonte" que capture isso, e a submissão exclui deliberadamente a VM do Git. O que fica documentado aqui é a configuração e o raciocínio por trás dela.',
    tags:['Linux','Sysadmin','Segurança'],
    summary:'Instalação e hardening de um servidor Debian numa VM: passwords, firewall, sudo restrito.',
    detail:'Configuração manual de um servidor Linux do zero: particionamento com LVM encriptado, políticas rígidas de password e conta, firewall UFW, SSH numa porta não-standard, sudo com regras restritas e um script de monitorização via cron que reporta o estado do sistema a cada 10 minutos.',
    learned:'Este foi o primeiro contacto sério com administração de sistemas fora de um ambiente já preparado. Aprendi a particionar um disco com LVM encriptado do zero, a raciocinar sobre políticas de password e de sudo em vez de as copiar de um tutorial, a configurar um firewall restritivo (UFW) que só deixa passar o essencial, e a escrever um script de monitorização em bash que corre via cron e reporta o estado real do servidor — CPU, RAM, disco, ligações ativas — sem depender de ferramentas gráficas. Também obrigou a entender, e não apenas usar, a diferença entre apt e aptitude, e o papel do AppArmor num sistema Debian.'},
-  {id:'netpractice', title:'NetPractice', category:'redes', status:'pass', bonus:false,
+  {id:'netpractice', title:'NetPractice', group:'common-core', categories:['redes'], category:'redes', status:'pass', bonus:false,
    github:null,
    noGithubReason:'Não há código para partilhar: os 10 níveis resolvem-se numa interface de treino local que corre num browser, ajustando campos de configuração (IPs, máscaras, gateways) até a rede simulada funcionar. Não se escreve nenhuma linha própria — o resultado de cada nível é um ficheiro de configuração exportado da própria ferramenta, não um projeto de software.',
    tags:['Redes','TCP/IP','Routing'],
    summary:'10 topologias de rede progressivas: endereçamento IP, sub-redes, gateways, routing, OSI.',
    detail:'Exercícios práticos de troubleshooting de rede — corrigir diagramas de rede não-funcionais ajustando endereços IP, máscaras de sub-rede, gateways e tabelas de routing, consolidando os fundamentos de TCP/IP e do modelo OSI.',
    learned:'Este projeto forçou a passar de "saber a teoria de TCP/IP" para conseguir diagnosticar, sob pressão e sem ferramentas externas, porque é que uma topologia de rede concreta não funciona. Em cada um dos 10 níveis, a única informação disponível são os logs do próprio simulador — "destino não corresponde a nenhuma rota", "gateway inválido" — e a partir daí é preciso raciocinar sobre sub-redes, máscaras e tabelas de routing até a comunicação entre hosts funcionar. Fica a capacidade de ler uma topologia de rede e identificar rapidamente onde está a falha de configuração, uma competência que se usa tal e qual em suporte de redes ou operações.'},
-  {id:'webserv', title:'Webserv', category:'redes', status:'pass', bonus:true,
+  {id:'webserv', title:'Webserv', group:'common-core', categories:['redes'], category:'redes', status:'pass', bonus:true,
    github:'https://github.com/3dsonnn/webserv',
    tags:['C++98','HTTP','poll()'],
    summary:'Servidor HTTP construído do zero em C++98, com I/O não-bloqueante e um único poll().',
    detail:'Servidor web compatível com browsers reais — parsing de HTTP/1.1, gestão de múltiplos clientes em simultâneo com um único poll() não-bloqueante, métodos GET/POST/DELETE, upload de ficheiros, execução de CGI (PHP/Python) e ficheiro de configuração inspirado no NGINX.'},
-  {id:'inception', title:'Inception', category:'redes', status:'pass', bonus:true,
+  {id:'inception', title:'Inception', group:'common-core', categories:['redes'], category:'redes', status:'pass', bonus:true,
    github:'https://github.com/JBYoussef/Inception',
    tags:['Docker','NGINX','TLS'],
    summary:'Infraestrutura containerizada: NGINX (TLS), WordPress + PHP-FPM e MariaDB, em containers isolados.',
    detail:'Dockerfiles próprios (sem imagens pré-feitas) para três serviços isolados — NGINX como único ponto de entrada via HTTPS, WordPress com PHP-FPM, e MariaDB — com volumes Docker nomeados persistentes, segredos via variáveis de ambiente e reinício automático em caso de falha.'},
-  {id:'ftprodd', title:'ft_prodd / ft_transcendence', category:'web', status:'pass', bonus:true,
+  {id:'ftprodd', title:'ft_prodd / ft_transcendence', group:'common-core', categories:['web'], category:'web', status:'pass', bonus:true,
    github:'https://github.com/3dsonnn/ft_prodd',
    tags:['Node.js','PostgreSQL','JWT','OAuth 2.0'],
    summary:'App web full-stack de gestão colaborativa de projetos, em equipa de 4. Responsável pelo backend.',
    detail:'Plataforma tipo Kanban com workspaces, quadros, tarefas e notificações em tempo real. Como programador de backend: autenticação JWT e OAuth 2.0 via API da 42, segurança da API (Helmet, CORS, rate limiting), chaves de API com hash bcrypt, WebSockets (Socket.IO) para presença online e documentação Swagger. Stack: Node.js/Express, PostgreSQL + Prisma, Docker.'},
-  {id:'ledger', title:'Ledger (Piscine SQL / Data Engineering)', category:'data', status:'progress', bonus:false,
+  {id:'ledger', title:'Ledger (Piscine SQL / Data Engineering)', group:'personal', categories:['data'], category:'data', status:'progress', bonus:false,
    github:'https://github.com/JBYoussef/ledger',
    tags:['PostgreSQL','SQL','Redis','DuckDB','Neo4j','Window Functions','Transactions'],
    summary:'Piscine de data engineering centrada num schema de ledger financeiro: fundamentos relacionais, depois federação multi-motor.',
    detail:'Part I reconstrói fundamentos SQL (conjuntos, joins, índices, funções de janela, transações, isolation levels, triggers e audit trail) inteiramente dentro de um schema de ledger partilhado — o mesmo domínio que a Piscine Java modela em memória. Part II é um capstone de cinco módulos: modelagem temporal em PostgreSQL, cache write-through e rate-limiting distribuído em Redis, camada analítica em DuckDB/ClickHouse, deteção de fraud rings em Neo4j, e uma query de federação que cruza as três fontes sem duplicar dados. Avaliação por review ao vivo sobre um banco desconhecido.'},
-  {id:'java', title:'Piscine Java', category:'java', status:'progress', bonus:false,
+  {id:'java', title:'Piscine Java', group:'personal', categories:['java'], category:'java', status:'progress', bonus:false,
    github:'https://github.com/JBYoussef/piscine-java',
    tags:['Java 21','Spring Boot','JPA','JWT','Docker','Event Sourcing','Concurrency'],
    summary:'Piscine Java completa em torno do domínio de transferências monetárias: do OOP e collections até arquitetura, segurança e observabilidade.',
@@ -585,14 +591,14 @@ const projects = [
 
 const grid = document.getElementById('projectsGrid');
 function statusBadge(p){
-  if(p.status === 'progress') return '<span class="status status-progress">● in progress</span>';
+  if(p.status === 'progress' || p.status === 'in-progress') return '<span class="status status-progress">● in progress</span>';
   let html = '<span class="status status-ok">● pass</span>';
   if(p.bonus) html += '<span class="status status-bonus">+bonus</span>';
   return html;
 }
-function renderProjects(){
-  grid.innerHTML = projects.map(p => `
-    <div class="project-card" data-category="${p.category}" data-id="${p.id}" tabindex="0" role="button" aria-label="Ver detalhes de ${p.title}">
+function renderProjects(list){
+  grid.innerHTML = list.map(p => `
+    <div class="project-card" data-id="${p.id}" tabindex="0" role="button" aria-label="Ver detalhes de ${p.title}">
       <div class="card-top">
         <div class="card-title">${p.title}</div>
       </div>
@@ -607,19 +613,95 @@ function renderProjects(){
     card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openModal(card.dataset.id);} });
   });
 }
-renderProjects();
 
-// ---------------- filters ----------------
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter;
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.style.display = (f === 'all' || card.dataset.category === f) ? '' : 'none';
+// ---------------- hierarchical group/category filters ----------------
+const GROUPS = [
+  {id:'common-core', label:'Common Core'},
+  {id:'advanced',     label:'42 Advanced'},
+  {id:'personal',     label:'Personal'}
+];
+const CATEGORY_LABELS = {
+  sistemas: 'Sistemas & C',
+  cpp:      'C++ / POO',
+  redes:    'Redes & DevOps',
+  web:      'Web & Full-Stack',
+  data:     'SQL & Data',
+  java:     'Java',
+  memory:   'Memory Management',
+  unix:     'Unix'
+};
+
+const groupRow = document.getElementById('groupRow');
+const subfilterRow = document.getElementById('subfilterRow');
+
+let activeGroup = GROUPS[0].id;
+let activeCategory = 'all';
+
+function projectsInGroup(groupId){
+  return projects.filter(p => p.group === groupId);
+}
+
+function getCategoriesForGroup(groupId){
+  const seen = [];
+  projectsInGroup(groupId).forEach(p => {
+    (p.categories || [p.category]).forEach(c => {
+      if(c && !seen.includes(c)) seen.push(c);
     });
   });
-});
+  return seen;
+}
+
+function renderGroups(){
+  groupRow.innerHTML = GROUPS.map(g => `
+    <button class="group-btn${g.id === activeGroup ? ' active' : ''}"
+            data-group="${g.id}"
+            aria-pressed="${g.id === activeGroup}">${g.label}</button>
+  `).join('');
+  groupRow.querySelectorAll('.group-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const g = btn.dataset.group;
+      if(g === activeGroup) return;
+      activeGroup = g;
+      activeCategory = 'all';
+      renderGroups();
+      renderSubFilters(activeGroup);
+      applyFilters();
+    });
+  });
+}
+
+function renderSubFilters(groupId){
+  const cats = getCategoriesForGroup(groupId);
+  const buttons = [`<button class="filter-btn${activeCategory === 'all' ? ' active' : ''}" data-filter="all" aria-pressed="${activeCategory === 'all'}">todos</button>`]
+    .concat(cats.map(c => `
+      <button class="filter-btn${activeCategory === c ? ' active' : ''}"
+              data-filter="${c}"
+              aria-pressed="${activeCategory === c}">${(CATEGORY_LABELS[c] || c).toLowerCase()}</button>
+    `));
+  subfilterRow.innerHTML = buttons.join('');
+  subfilterRow.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.dataset.filter;
+      subfilterRow.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-pressed', b === btn);
+      });
+      applyFilters();
+    });
+  });
+}
+
+function applyFilters(){
+  const list = projectsInGroup(activeGroup).filter(p => {
+    if(activeCategory === 'all') return true;
+    return (p.categories || [p.category]).includes(activeCategory);
+  });
+  renderProjects(list);
+}
+
+renderGroups();
+renderSubFilters(activeGroup);
+applyFilters();
 
 // ---------------- modal ----------------
 const overlay = document.getElementById('modalOverlay');
