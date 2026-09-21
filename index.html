@@ -373,7 +373,7 @@
           <div class="tag-row">
             <span class="tag">PostgreSQL</span><span class="tag">Window Functions</span><span class="tag">Transactions &amp; Isolation</span>
             <span class="tag">Indexes / EXPLAIN</span><span class="tag">Triggers &amp; Audit</span>
-            <span class="tag">Redis</span><span class="tag">DuckDB</span><span class="tag">Neo4j</span>
+            <span class="tag">CTEs &amp; Recursion</span><span class="tag">GROUPING SETS</span>
           </div>
         </div>
         <div class="skill-card">
@@ -579,9 +579,9 @@ const projects = [
    detail:'Plataforma tipo Kanban com workspaces, quadros, tarefas e notificações em tempo real. Como programador de backend: autenticação JWT e OAuth 2.0 via API da 42, segurança da API (Helmet, CORS, rate limiting), chaves de API com hash bcrypt, WebSockets (Socket.IO) para presença online e documentação Swagger. Stack: Node.js/Express, PostgreSQL + Prisma, Docker.'},
   {id:'ledger', title:'Ledger (Piscine SQL / Data Engineering)', group:'personal', categories:['data'], category:'data', status:'progress', bonus:false,
    github:'https://github.com/JBYoussef/ledger',
-   tags:['PostgreSQL','SQL','Redis','DuckDB','Neo4j','Window Functions','Transactions'],
-   summary:'Piscine de data engineering centrada num schema de ledger financeiro: fundamentos relacionais, depois federação multi-motor.',
-   detail:'Part I reconstrói fundamentos SQL (conjuntos, joins, índices, funções de janela, transações, isolation levels, triggers e audit trail) inteiramente dentro de um schema de ledger partilhado — o mesmo domínio que a Piscine Java modela em memória. Part II é um capstone de cinco módulos: modelagem temporal em PostgreSQL, cache write-through e rate-limiting distribuído em Redis, camada analítica em DuckDB/ClickHouse, deteção de fraud rings em Neo4j, e uma query de federação que cruza as três fontes sem duplicar dados. Avaliação por review ao vivo sobre um banco desconhecido.'},
+   tags:['PostgreSQL','SQL','Window Functions','Transactions','Indexes','Triggers','CTEs'],
+   summary:'Piscine de data engineering centrada num schema de ledger financeiro: fundamentos relacionais em PostgreSQL.',
+   detail:'Reconstrói fundamentos SQL — conjuntos, joins, índices, funções de janela, transações e isolation levels, triggers e audit trail, CTEs recursivos, agregações multidimensionais e planeador de queries — inteiramente dentro de um schema de ledger partilhado, o mesmo domínio que a Piscine Java modela em memória. Avaliação por review ao vivo sobre um banco desconhecido.'},
   {id:'java', title:'Piscine Java', group:'personal', categories:['java'], category:'java', status:'progress', bonus:false,
    github:'https://github.com/JBYoussef/piscine-java',
    tags:['Java 21','Spring Boot','JPA','JWT','Docker','Event Sourcing','Concurrency'],
